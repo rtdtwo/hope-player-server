@@ -1,0 +1,5 @@
+Flask
+waitress
+flask_cors
+youtube-dl
+SQLObject
