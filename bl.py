@@ -1,5 +1,6 @@
 import da
 import youtube_dl
+import re
 
 
 def get_library():
@@ -15,7 +16,6 @@ def get_stream_url(song_id):
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(song.url, download=False)
             stream_url = info['formats'][0]['url']
-            print(stream_url)
             return {
                 'code': 200,
                 'result': stream_url
@@ -32,7 +32,14 @@ def add_song(data):
     artist = data['artist']
     url = data['url']
 
-    success = da.add_song(name, artist, url)
+    yt_id = re.search(
+        '((?<=(v|V)/)|(?<=be/)|(?<=(\?|\&)v=)|(?<=embed/))([\w-]+)', url)
+    if yt_id is not None:
+        art = 'https://i.ytimg.com/vi/' + yt_id.group() + '/maxresdefault.jpg'
+    else:
+        art = ''
+
+    success = da.add_song(name, artist, url, art)
 
     if success:
         return {
