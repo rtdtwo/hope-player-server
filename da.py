@@ -30,7 +30,8 @@ def add_song(name, artist, url, art, tags):
 def delete_song(song_id):
     try:
         song = get_song(song_id)
-        song.delete()
+        song.delete(id=song_id)
         return True
-    except:
+    except Exception as e:
+        print(e)
         return False

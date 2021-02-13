@@ -49,7 +49,7 @@ def add_song(data):
         }
     else:
         return {
-            'code': 501,
+            'code': 500,
             'msg': 'Failed to add'
         }
 
@@ -63,7 +63,7 @@ def delete_song(song_id):
         }
     else:
         return {
-            'code': 501,
+            'code': 500,
             'msg': 'Failed to delete'
         }
 
