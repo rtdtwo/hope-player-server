@@ -18,7 +18,7 @@ def add_song(name, artist, url, art, tags):
             artist=artist,
             url=url,
             art=art,
-            added=time.time()
+            added=time.time(),
             tags=json.dumps([tag.strip() for tag in tags.split(',')])
         )
         song.set()
