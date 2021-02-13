@@ -31,6 +31,7 @@ def add_song(data):
     name = data['name']
     artist = data['artist']
     url = data['url']
+    tags = data['tags']
 
     yt_id = re.search(
         '((?<=(v|V)/)|(?<=be/)|(?<=(\?|\&)v=)|(?<=embed/))([\w-]+)', url)
@@ -39,7 +40,7 @@ def add_song(data):
     else:
         art = ''
 
-    success = da.add_song(name, artist, url, art)
+    success = da.add_song(name, artist, url, art, tags)
 
     if success:
         return {
@@ -51,3 +52,18 @@ def add_song(data):
             'code': 501,
             'msg': 'Failed to add'
         }
+
+
+def delete_song(song_id):
+    success = da.delete_song(song_id)
+    if success:
+        return {
+            'code': 200,
+            'msg': 'Deleted successfully'
+        }
+    else:
+        return {
+            'code': 501,
+            'msg': 'Failed to delete'
+        }
+
