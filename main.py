@@ -24,12 +24,21 @@ def get_stream_url():
 
 @app.route('/add', methods=['POST'])
 def add_song():
-    data = request.json
-    if data is not None:
-        result = bl.add_song(data)
+    if request.is_json:
+        result = bl.add_song(request.json)
         return jsonify(result), result['code']
     else:
         return jsonify({'code': 400, 'msg': 'No data provided'}), 400
+
+
+@app.route('/delete', methods=['DELETE'])
+def delete_song():
+    song_id = request.args.get('id', None)
+    if song_id is not None:
+        result = bl.delete_song(song_id)
+        return jsonify(result), result['code']
+    else:
+        return jsonify({'code': 400, 'msg': 'No Song ID provided'}), 400
 
 
 if __name__ == '__main__':

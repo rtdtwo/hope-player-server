@@ -1,4 +1,5 @@
 import os
+import json
 from sqlobject import SQLObject, sqlhub, connectionForURI, StringCol, BigIntCol
 
 db_filename = os.path.abspath('data.db')
@@ -13,6 +14,7 @@ class Song(SQLObject):
     art = StringCol()
     url = StringCol()
     added = BigIntCol()
+    tags = StringCol()
 
     def to_dict(self):
         return {
@@ -22,6 +24,7 @@ class Song(SQLObject):
             'art': self.art,
             'added': self.added,
             'url': self.url,
+            'tags': json.loads(self.tags)
         }
 
 
