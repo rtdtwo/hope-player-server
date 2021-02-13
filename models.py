@@ -17,6 +17,11 @@ class Song(SQLObject):
     tags = StringCol()
 
     def to_dict(self):
+        if self.tags == '':
+            tags = ''
+        else:
+            tags = json.loads(self.tags)
+            
         return {
             'id': self.id,
             'name': self.name,
@@ -24,8 +29,7 @@ class Song(SQLObject):
             'art': self.art,
             'added': self.added,
             'url': self.url,
-            'tags': json.loads(self.tags)
+            'tags': tags
         }
-
 
 Song.createTable(ifNotExists=True)
