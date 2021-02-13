@@ -1,5 +1,6 @@
 import models
 import time
+import json
 
 
 def get_library():
@@ -18,7 +19,7 @@ def add_song(name, artist, url, art, tags):
             url=url,
             art=art,
             added=time.time()
-            tags=[tag.strip() for tag in tags.split(',')]
+            tags=json.dumps([tag.strip() for tag in tags.split(',')])
         )
         song.set()
         return True
