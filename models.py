@@ -18,7 +18,7 @@ class Song(SQLObject):
 
     def to_dict(self):
         if self.tags == '':
-            tags = ''
+            tags = []
         else:
             tags = json.loads(self.tags)
             
