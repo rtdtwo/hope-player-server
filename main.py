@@ -31,6 +31,15 @@ def add_song():
         return jsonify({'code': 400, 'msg': 'No data provided'}), 400
 
 
+@app.route('/edit', methods=['PUT'])
+def edit_song():
+    if request.is_json:
+        result = bl.edit_song(request.json)
+        return jsonify(result), result['code']
+    else:
+        return jsonify({'code': 400, 'msg': 'No data provided'}), 400
+
+
 @app.route('/delete', methods=['DELETE'])
 def delete_song():
     song_id = request.args.get('id', None)

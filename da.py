@@ -35,3 +35,18 @@ def delete_song(song_id):
     except Exception as e:
         print(e)
         return False
+
+
+def edit_song(id, name, artist, tags):
+    song = get_song(id)
+
+    if song is not None:
+        song.name = name
+        song.artist = artist
+        song.tags = json.dumps([tag.strip() for tag in tags.split(',')])
+
+        song.syncUpdate()
+
+        return True
+    else:
+        return False

@@ -67,3 +67,22 @@ def delete_song(song_id):
             'msg': 'Failed to delete'
         }
 
+
+def edit_song(data):
+    song_id = data['id']
+    name = data['name']
+    artist = data['artist']
+    tags = data['tags']
+
+    success = da.edit_song(song_id, name, artist, tags)
+
+    if success:
+        return {
+            'code': 200,
+            'msg': 'Edited successfully'
+        }
+    else:
+        return {
+            'code': 500,
+            'msg': 'Failed to edit'
+        }
