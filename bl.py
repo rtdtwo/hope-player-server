@@ -120,12 +120,12 @@ def generate_artist_image(artist):
             name, limit=1,  output_dir='bing_download_artists', adult_filter_off=False, force_replace=True, timeout=60)
 
         base_download_path = 'bing_download_artists/' + name + '/Image_1'
-        if os.path.exists(base_path + '.jpg'):
-            shutil.copyfile(base_path + '.jpg', base_save_path)
-        elif os.path.exists(base_path + '.png'):
-            shutil.copyfile(base_path + '.png', base_save_path)
-        elif os.path.exists(base_path + '.jpeg'):
-            shutil.copyfile(base_path + '.jpeg', base_save_path)
+        if os.path.exists(base_download_path + '.jpg'):
+            shutil.copyfile(base_download_path + '.jpg', base_save_path)
+        elif os.path.exists(base_download_path + '.png'):
+            shutil.copyfile(base_download_path + '.png', base_save_path)
+        elif os.path.exists(base_download_path + '.jpeg'):
+            shutil.copyfile(base_download_path + '.jpeg', base_save_path)
         else:
             pass
 
