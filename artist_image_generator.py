@@ -3,6 +3,12 @@ import os
 from bing_image_downloader import downloader
 import shutil
 import os
+import da
+
+
+def get_valid_filename(name):
+    return name.replace('&', 'and').replace('+', 'and')
+
 
 def generate_artist_images():
     songs = [song.to_dict() for song in da.get_library()]
@@ -22,5 +28,4 @@ def generate_artist_images():
     shutil.rmtree('bing_download_artists', ignore_errors=True, onerror=None)
 
 
-def get_valid_filename(name):
-    return name.replace('&', 'and').replace('+', 'and')
+generate_artist_images()
