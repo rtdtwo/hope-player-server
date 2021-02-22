@@ -1,6 +1,9 @@
 # Db File
 data.db
 
+# Generated Artist Images
+static/artists/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

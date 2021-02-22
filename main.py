@@ -3,7 +3,7 @@ from flask_cors import CORS
 import waitress
 import bl
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='')
 CORS(app)
 
 
@@ -48,6 +48,12 @@ def delete_song():
         return jsonify(result), result['code']
     else:
         return jsonify({'code': 400, 'msg': 'No Song ID provided'}), 400
+
+
+@app.route('/artists', methods=['GET'])
+def get_artists():
+    result = bl.get_artists()
+    return jsonify(result), result['code']
 
 
 if __name__ == '__main__':
