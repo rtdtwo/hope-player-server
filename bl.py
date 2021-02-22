@@ -105,7 +105,7 @@ def get_artists():
     for name in artist_names:
         result.append({
             'name': name,
-            'imagePath': '/artists/' + name + '.jpg'
+            'imagePath': '/artists/' + name
         })
 
     return {'code': 200, 'results': result}
@@ -114,12 +114,12 @@ def get_artists():
 def generate_artist_image(artist):
     name = get_valid_filename(artist)
 
-    if not os.path.exists('static/artists/' + name + '.jpg'):
+    if not os.path.exists('static/artists/' + name):
         downloader.download(
             name, limit=1,  output_dir='bing_download_artists', adult_filter_off=False, force_replace=True, timeout=60)
 
         shutil.copyfile('bing_download_artists/' + name + '/Image_1.jpg',
-                        'static/artists/' + name + '.jpg')
+                        'static/artists/' + name)
 
     shutil.rmtree('bing_download_artists', ignore_errors=True, onerror=None)
 
