@@ -4,6 +4,7 @@ import re
 from bing_image_downloader import downloader
 import shutil
 import os
+import urllib.parse
 
 
 def get_library():
@@ -98,14 +99,15 @@ def get_artists():
     songs = [song.to_dict() for song in da.get_library()]
     artist_names = []
     for song in songs:
-        if song['artist'] not in artist_names:
-            artist_names.append(song['artist'])
+        name = song['artist']
+        if name not in artist_names:
+            artist_names.append(name)
 
     result = []
     for name in artist_names:
         result.append({
             'name': name,
-            'imagePath': '/artists/' + name + '.jpg'
+            'imagePath': '/artists/' + get_valid_filename(name) + '.jpg'
         })
 
     return {'code': 200, 'results': result}
@@ -119,14 +121,18 @@ def generate_artist_images():
         if name not in artist_names:
             artist_names.append(name)
 
-        if not os.path.exists('static/artists/' + name + '.jpg'):
+        if not os.path.exists('static/artists/' + get_valid_filename(name) + '.jpg'):
             downloader.download(
                 name, limit=1,  output_dir='bing_download_artists', adult_filter_off=False, force_replace=True, timeout=60)
 
-            shutil.copyfile('bing_download_artists/' + name + '/Image_1.jpg',
-                            'static/artists/' + name + '.jpg')
+            shutil.copyfile('bing_download_artists/' + get_valid_filename(name) + '/Image_1.jpg',
+                            'static/artists/' + get_valid_filename(name) + '.jpg')
 
     shutil.rmtree('bing_download_artists', ignore_errors=True, onerror=None)
+
+
+def get_valid_filename(name):
+    return urllib.parse.quote(name)
 
 
 generate_artist_images()
