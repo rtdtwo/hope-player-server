@@ -1,9 +1,13 @@
 import da
 import youtube_dl
 import re
+from bing_image_downloader import downloader
+import shutil
+import os
 
 
 def get_library():
+    generate_artist_images()
     return [song.to_dict() for song in da.get_library()]
 
 
@@ -43,6 +47,7 @@ def add_song(data):
     success = da.add_song(name, artist, url, art, tags)
 
     if success:
+        generate_artist_images()
         return {
             'code': 201,
             'msg': 'Added successfully'
@@ -77,6 +82,7 @@ def edit_song(data):
     success = da.edit_song(song_id, name, artist, tags)
 
     if success:
+        generate_artist_images()
         return {
             'code': 200,
             'msg': 'Edited successfully'
@@ -86,3 +92,41 @@ def edit_song(data):
             'code': 500,
             'msg': 'Failed to edit'
         }
+
+
+def get_artists():
+    songs = [song.to_dict() for song in da.get_library()]
+    artist_names = []
+    for song in songs:
+        if song['artist'] not in artist_names:
+            artist_names.append(song['artist'])
+
+    result = []
+    for name in artist_names:
+        result.append({
+            'name': name,
+            'imagePath': '/artists/' + name + '.jpg'
+        })
+
+    return {'code': 200, 'results': result}
+
+
+def generate_artist_images():
+    songs = [song.to_dict() for song in da.get_library()]
+    artist_names = []
+    for song in songs:
+        name = song['artist']
+        if name not in artist_names:
+            artist_names.append(name)
+
+        if not os.path.exists('static/artists/' + name + '.jpg'):
+            downloader.download(
+                name, limit=1,  output_dir='bing_download_artists', adult_filter_off=False, force_replace=True, timeout=60)
+
+            shutil.copyfile('bing_download_artists/' + name + '/Image_1.jpg',
+                            'static/artists/' + name + '.jpg')
+
+    shutil.rmtree('bing_download_artists', ignore_errors=True, onerror=None)
+
+
+generate_artist_images()
