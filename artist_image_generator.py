@@ -18,23 +18,20 @@ def generate_artist_images():
         if name not in artist_names:
             artist_names.append(name)
 
-        if not os.path.exists('static/artists/' + name + '.jpg'):
+        base_save_path = 'static/artists/' + name
+        if not os.path.exists(base_save_path):
             downloader.download(
                 name, limit=1,  output_dir='bing_download_artists', adult_filter_off=False, force_replace=True, timeout=60)
 
-            base_path = 'bing_download_artists/' + name + '/Image_1'
+            base_download_path = 'bing_download_artists/' + name + '/Image_1'
             if os.path.exists(base_path + '.jpg'):
-                shutil.copyfile(base_path + '.jpg',
-                                'static/artists/' + name)
+                shutil.copyfile(base_path + '.jpg', base_save_path)
             elif os.path.exists(base_path + '.png'):
-                shutil.copyfile(base_path + '.png',
-                                'static/artists/' + name)
+                shutil.copyfile(base_path + '.png', base_save_path)
             elif os.path.exists(base_path + '.jpeg'):
-                shutil.copyfile(base_path + '.jpeg',
-                                'static/artists/' + name)
+                shutil.copyfile(base_path + '.jpeg', base_save_path)
             else:
                 pass
-
 
     shutil.rmtree('bing_download_artists', ignore_errors=True, onerror=None)
 
