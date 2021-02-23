@@ -40,7 +40,6 @@ def get_stream_url(song_id, quality):
                             'msg': 'No reliable audio streams found for this video.'
                         }
                 else:
-                    print(quality_index)
                     stream_url = stream_data['url']
                     return {
                         'code': 200,
