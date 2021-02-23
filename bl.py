@@ -1,9 +1,9 @@
 import da
 import youtube_dl
 import re
-from bing_image_downloader import downloader
 import shutil
 import os
+import utils
 
 
 def get_library():
@@ -46,7 +46,7 @@ def add_song(data):
     success = da.add_song(name, artist, url, art, tags)
 
     if success:
-        generate_artist_image(artist)
+        utils.generate_artist_image(artist)
         return {
             'code': 201,
             'msg': 'Added successfully'
@@ -81,7 +81,7 @@ def edit_song(data):
     success = da.edit_song(song_id, name, artist, tags)
 
     if success:
-        generate_artist_image(artist)
+        utils.generate_artist_image(artist)
         return {
             'code': 200,
             'msg': 'Edited successfully'
@@ -97,7 +97,7 @@ def get_artists():
     songs = [song.to_dict() for song in da.get_library()]
     artist_names = []
     for song in songs:
-        name = get_valid_filename(song['artist'])
+        name = utils.get_valid_filename(song['artist'])
         if name not in artist_names:
             artist_names.append(name)
 
@@ -109,28 +109,3 @@ def get_artists():
         })
 
     return {'code': 200, 'results': result}
-
-
-def generate_artist_image(artist):
-    name = get_valid_filename(artist)
-
-    base_save_path = 'static/artists/' + name
-    if not os.path.exists(base_save_path):
-        downloader.download(
-            name, limit=1,  output_dir='bing_download_artists', adult_filter_off=False, force_replace=True, timeout=60)
-
-        base_download_path = 'bing_download_artists/' + name + '/Image_1'
-        if os.path.exists(base_download_path + '.jpg'):
-            shutil.copyfile(base_download_path + '.jpg', base_save_path)
-        elif os.path.exists(base_download_path + '.png'):
-            shutil.copyfile(base_download_path + '.png', base_save_path)
-        elif os.path.exists(base_download_path + '.jpeg'):
-            shutil.copyfile(base_download_path + '.jpeg', base_save_path)
-        else:
-            pass
-
-    shutil.rmtree('bing_download_artists', ignore_errors=True, onerror=None)
-
-
-def get_valid_filename(name):
-    return name.replace('&', 'and').replace('+', 'and')
