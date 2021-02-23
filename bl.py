@@ -33,7 +33,6 @@ def get_stream_url(song_id, quality):
                 if stream_asr is None:
                     if quality_index > 0:
                         quality_index -= 1
-                        stream_data = info['formats'][quality_index]
                     else:
                         return {
                             'code': 500,
