@@ -15,8 +15,10 @@ def get_library():
 @app.route('/stream')
 def get_stream_url():
     song_id = request.args.get('id', None)
+    quality = request.args.get('quality', 'high')
+
     if song_id is not None:
-        result = bl.get_stream_url(song_id)
+        result = bl.get_stream_url(song_id, quality)
         return jsonify(result), result['code']
     else:
         return jsonify({'code': 400, 'msg': 'No Song ID provided'}), 400

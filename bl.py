@@ -4,13 +4,22 @@ import re
 import shutil
 import os
 import utils
+import json
 
 
 def get_library():
     return [song.to_dict() for song in da.get_library()]
 
 
-def get_stream_url(song_id):
+def get_stream_url(song_id, quality):
+    
+    if quality == 'low':
+        quality_index = 0
+    elif quality == 'med':
+        quality_index = 1
+    else:
+        quality_index = 2
+        
     song = da.get_song(song_id)
     if song is not None:
         ydl_opts = {
@@ -19,8 +28,11 @@ def get_stream_url(song_id):
         }
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(song.url, download=False)
-            stream_url = info['formats'][0]['url']
-            print(info['formats'])
+            stream_url = info['formats'][quality_index]['url']
+
+            with open("data.txt", "w") as f:
+	            f.write(json.dumps(info['formats']))
+
             return {
                 'code': 200,
                 'result': stream_url
