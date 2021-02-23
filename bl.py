@@ -19,7 +19,7 @@ def get_stream_url(song_id, quality):
         quality_index = 1
     else:
         quality_index = 2
-        
+
     song = da.get_song(song_id)
     if song is not None:
         ydl_opts = {
@@ -27,11 +27,26 @@ def get_stream_url(song_id, quality):
         }
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(song.url, download=False)
-            stream_url = info['formats'][quality_index]['url']
-            return {
-                'code': 200,
-                'result': stream_url
-            }
+            while True:
+                stream_data = info['formats'][quality_index]
+                stream_asr = stream_data['asr']
+                if stream_asr is None:
+                    if quality_index > 0:
+                        quality_index -= 1
+                        stream_data = info['formats'][quality_index]
+                    else:
+                        return {
+                            'code': 500,
+                            'msg': 'No reliable audio streams found for this video.'
+                        }
+                else:
+                    print(quality_index)
+                    stream_url = stream_data['url']
+                    return {
+                        'code': 200,
+                        'result': stream_url
+                    }
+
     else:
         return {
             'code': 404,
