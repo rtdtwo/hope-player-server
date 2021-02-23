@@ -4,3 +4,4 @@ flask_cors
 youtube-dl
 SQLObject
 bing-image-downloader
+pillow
