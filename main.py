@@ -15,7 +15,7 @@ def get_library():
 @app.route('/stream')
 def get_stream_url():
     song_id = request.args.get('id', None)
-    quality = request.args.get('quality', 'high')
+    quality = request.args.get('quality', 'high').lower()
 
     if song_id is not None:
         result = bl.get_stream_url(song_id, quality)
