@@ -12,7 +12,7 @@ def get_library():
 
 
 def get_stream_url(song_id, quality):
-    
+
     if quality == 'low':
         quality_index = 0
     elif quality == 'med':
@@ -29,10 +29,6 @@ def get_stream_url(song_id, quality):
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(song.url, download=False)
             stream_url = info['formats'][quality_index]['url']
-
-            with open("data.txt", "w") as f:
-	            f.write(json.dumps(info['formats']))
-
             return {
                 'code': 200,
                 'result': stream_url
