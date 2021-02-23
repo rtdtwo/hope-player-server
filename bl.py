@@ -105,7 +105,7 @@ def get_artists():
     for name in artist_names:
         result.append({
             'name': name,
-            'imagePath': '/artists/' + name
+            'imagePath': '/artists/' + name + '.jpg'
         })
 
     return {'code': 200, 'results': result}
