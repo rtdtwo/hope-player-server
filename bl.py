@@ -14,7 +14,7 @@ def get_stream_url(song_id):
     song = da.get_song(song_id)
     if song is not None:
         ydl_opts = {
-            'format': 'bestaudio',
+            'format': 'bestaudio[ext=m4a]',
         }
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(song.url, download=False)
