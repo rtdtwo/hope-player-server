@@ -58,7 +58,7 @@ def crop_image(image_path):
 
 
 def get_lyrics(artist, title):
-    genius = Genius()
+    genius = lyricsgenius.Genius()
     song = genius.search_song(title, artist)
     if song is not None:
         return song.lyrics
