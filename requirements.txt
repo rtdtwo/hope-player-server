@@ -6,3 +6,4 @@ SQLObject
 bing-image-downloader
 pillow
 lyricsgenius
+gunicorn
