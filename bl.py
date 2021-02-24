@@ -1,6 +1,5 @@
 import da
 import youtube_dl
-import re
 import os
 import utils
 import json
@@ -170,7 +169,7 @@ def import_library(import_file):
                 song['artist'],
                 song['url'],
                 utils.generate_album_art(song['url']),
-                song['tags']
+                ','.join(song['tags'])
             )
             successes += 1
         except:

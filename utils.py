@@ -3,6 +3,7 @@ import shutil
 from bing_image_downloader import downloader
 from PIL import Image
 import lyricsgenius
+import re
 
 
 def generate_artist_image(artist):
