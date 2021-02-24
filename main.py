@@ -95,4 +95,4 @@ def get_artist_image():
 
 
 if __name__ == '__main__':
-    waitress.serve(app, host='0.0.0.0', port=7474)
+    waitress.serve(app, host='0.0.0.0', port=7474, threads=4)
