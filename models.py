@@ -2,6 +2,8 @@ import os
 import json
 from sqlobject import SQLObject, sqlhub, connectionForURI, StringCol, BigIntCol
 import sqlite3
+from artist_image_generator import generate_artist_images
+import threading
 
 db_filename = os.path.abspath('data.db')
 connection_string = 'sqlite:' + db_filename
@@ -47,5 +49,7 @@ def migrate():
         print(e)
 
     sqlite_conn.close()
+
+    generate_artist_images()
 
 migrate()

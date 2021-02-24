@@ -64,69 +64,6 @@ def get_stream_url(song_id, quality):
         }
 
 
-def add_song(data):
-    name = data['name']
-    artist = data['artist']
-    url = data['url']
-    tags = data['tags']
-
-    yt_id = re.search(
-        '((?<=(v|V)/)|(?<=be/)|(?<=(\?|\&)v=)|(?<=embed/))([\w-]+)', url)
-    if yt_id is not None:
-        art = 'https://i.ytimg.com/vi/' + yt_id.group() + '/maxresdefault.jpg'
-    else:
-        art = ''
-
-    success = da.add_song(name, artist, url, art, tags)
-
-    if success:
-        utils.generate_artist_image(artist)
-        return {
-            'code': 201,
-            'msg': 'Added successfully'
-        }
-    else:
-        return {
-            'code': 500,
-            'msg': 'Failed to add'
-        }
-
-
-def delete_song(song_id):
-    success = da.delete_song(song_id)
-    if success:
-        return {
-            'code': 200,
-            'msg': 'Deleted successfully'
-        }
-    else:
-        return {
-            'code': 500,
-            'msg': 'Failed to delete'
-        }
-
-
-def edit_song(data):
-    song_id = data['id']
-    name = data['name']
-    artist = data['artist']
-    tags = data['tags']
-
-    success = da.edit_song(song_id, name, artist, tags)
-
-    if success:
-        utils.generate_artist_image(artist)
-        return {
-            'code': 200,
-            'msg': 'Edited successfully'
-        }
-    else:
-        return {
-            'code': 500,
-            'msg': 'Failed to edit'
-        }
-
-
 def get_artists():
     songs = [song.to_dict() for song in da.get_library()]
     artist_names = []
