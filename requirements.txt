@@ -5,3 +5,5 @@ youtube-dl
 SQLObject
 bing-image-downloader
 pillow
+azapi
+flask-executor

@@ -58,5 +58,15 @@ def get_artists():
     return jsonify(result), result['code']
 
 
+@app.route('/lyrics')
+def get_lyrics():
+    song_id = request.args.get('id', None)
+    if song_id is not None:
+        result = bl.get_lyrics(song_id)
+        return jsonify(result), result['code']
+    else:
+        return jsonify({'code': 400, 'msg': 'No Song ID provided'}), 400
+
+
 if __name__ == '__main__':
     waitress.serve(app, host='0.0.0.0', port=7474)
