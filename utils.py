@@ -59,6 +59,8 @@ def crop_image(image_path):
 
 
 def get_song_lyrics(artist, title):
+    print((artist, title, 'lyrics'))
+
     API = azapi.AZlyrics('duckduckgo', accuracy=0.5)
     API.artist = artist
     API.title = title
