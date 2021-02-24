@@ -5,14 +5,27 @@ import shutil
 import os
 import utils
 import json
+import time
 
 
 def get_library():
-    return [song.to_dict() for song in da.get_library()]
+    return {
+        'code': 200,
+        'results': [song.to_dict() for song in da.get_library()]
+    }
+
+
+def export_library():
+    return {
+        'code': 200,
+        'result': {
+            'timestamp': time.time(),
+            'library': [song.to_dict() for song in da.get_library()]
+        }
+    }
 
 
 def get_stream_url(song_id, quality):
-
     if quality == 'low':
         quality_index = 0
     elif quality == 'med':
@@ -64,9 +77,7 @@ def add_song(data):
     else:
         art = ''
 
-    lyrics = utils.get_song_lyrics(artist, name)
-
-    success = da.add_song(name, artist, url, art, tags, lyrics)
+    success = da.add_song(name, artist, url, art, tags)
 
     if success:
         utils.generate_artist_image(artist)
