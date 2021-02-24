@@ -11,14 +11,14 @@ def get_song(id):
     return list(models.Song.selectBy(id=id))[0]
 
 
-def add_song(name, artist, url, art, tags, lyrics):
+def add_song(name, artist, url, art, tags):
     try:
         song = models.Song(
             name=name,
             artist=artist,
             url=url,
             art=art,
-            lyrics=lyrics,
+            lyrics='',
             added=time.time(),
             tags=json.dumps([tag.strip() for tag in tags.split(',')])
         )

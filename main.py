@@ -68,5 +68,11 @@ def get_lyrics():
         return jsonify({'code': 400, 'msg': 'No Song ID provided'}), 400
 
 
+@app.route('/library/export')
+def export_library():
+    result = bl.export_library()
+    return jsonify(result), result['code']
+
+
 if __name__ == '__main__':
     waitress.serve(app, host='0.0.0.0', port=7474)
