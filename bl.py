@@ -1,7 +1,5 @@
 import da
 import youtube_dl
-import re
-import shutil
 import os
 import utils
 import json
@@ -98,4 +96,31 @@ def get_lyrics(song_id):
     return {
         'code': 200,
         'result': lyrics
+    }
+
+
+def import_library(import_file):
+    import_data = json.load(import_file)
+    import_library = import_data['library']
+    successes = 0
+    failures = 0
+    for song in import_library:
+        try:
+            da.add_song(
+                song['name'],
+                song['artist'],
+                song['url'],
+                utils.generate_album_art(song['url']),
+                ','.join(song['tags'])
+            )
+            successes += 1
+        except:
+            failures += 1
+
+    return {
+        'code': 200,
+        'result': {
+            'success': successes,
+            'fail': failures
+        }
     }

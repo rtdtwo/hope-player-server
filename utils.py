@@ -3,6 +3,7 @@ import shutil
 from bing_image_downloader import downloader
 from PIL import Image
 import lyricsgenius
+import re
 
 
 def generate_artist_image(artist):
@@ -64,3 +65,12 @@ def get_lyrics(artist, title):
         return song.lyrics
     
     return None
+
+
+def generate_album_art(yt_url):
+    yt_id = re.search(
+        '((?<=(v|V)/)|(?<=be/)|(?<=(\?|\&)v=)|(?<=embed/))([\w-]+)', yt_url)
+    if yt_id is not None:
+        return 'https://i.ytimg.com/vi/' + yt_id.group() + '/maxresdefault.jpg'
+    else:
+        return ''
