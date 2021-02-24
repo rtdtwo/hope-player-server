@@ -127,6 +127,6 @@ def import_library(import_file):
         'result': {
             'success': successes,
             'fail': failures,
-            'logs': error_log
+            'logs': logs
         }
     }
