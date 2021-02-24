@@ -2,8 +2,7 @@ import os
 import json
 from sqlobject import SQLObject, sqlhub, connectionForURI, StringCol, BigIntCol
 import sqlite3
-from artist_image_generator import generate_artist_images
-import threading
+
 
 db_filename = os.path.abspath('data.db')
 connection_string = 'sqlite:' + db_filename
@@ -40,16 +39,17 @@ class Song(SQLObject):
 
 Song.createTable(ifNotExists=True)
 
+
 def migrate():
     sqlite_conn = sqlite3.connect('data.db')
 
     try:
-        sqlite_conn.execute("ALTER TABLE song ADD COLUMN lyrics TEXT default ''")
+        sqlite_conn.execute(
+            "ALTER TABLE song ADD COLUMN lyrics TEXT default ''")
     except Exception as e:
         print(e)
 
     sqlite_conn.close()
 
-    generate_artist_images()
 
 migrate()
