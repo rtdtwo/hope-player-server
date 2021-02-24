@@ -67,4 +67,4 @@ def import_library():
 
 
 if __name__ == '__main__':
-    waitress.serve(app, host='0.0.0.0', port=7474, threads=4)
+    waitress.serve(app, host='0.0.0.0', port=7475, threads=4)
