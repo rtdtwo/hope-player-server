@@ -26,6 +26,6 @@ def add_song(name, artist, url, art, tags):
             tags=json.dumps([tag.strip() for tag in tags.split(',')])
         )
         song.set()
-        return True
-    except:
-        return False
+        return True, None
+    except Exception as e:
+        return False, e

@@ -104,6 +104,7 @@ def import_library(import_file):
     import_library = import_data['library']
     successes = 0
     failures = 0
+    logs = []
     for song in import_library:
         try:
             success = da.add_song(
@@ -113,10 +114,11 @@ def import_library(import_file):
                 utils.generate_album_art(song['url']),
                 ','.join(song['tags'])
             )
-            if success:
+            if success[0]:
                 successes += 1
             else:
                 failures += 1
+                logs.append(successes[1])
         except:
             failures += 1
 
@@ -124,6 +126,7 @@ def import_library(import_file):
         'code': 200,
         'result': {
             'success': successes,
-            'fail': failures
+            'fail': failures,
+            'logs': error_log
         }
     }
