@@ -7,3 +7,4 @@ bing-image-downloader
 pillow
 lyricsgenius
 gunicorn
+psycopg2-binary

@@ -3,9 +3,7 @@ import json
 from sqlobject import SQLObject, sqlhub, connectionForURI, StringCol, BigIntCol
 import sqlite3
 
-
-db_filename = os.path.abspath('data.db')
-connection_string = 'sqlite:' + db_filename
+connection_string = os.environ['DATABASE_URL']
 connection = connectionForURI(connection_string)
 sqlhub.processConnection = connection
 
@@ -38,18 +36,3 @@ class Song(SQLObject):
 
 
 Song.createTable(ifNotExists=True)
-
-
-def migrate():
-    sqlite_conn = sqlite3.connect('data.db')
-
-    try:
-        sqlite_conn.execute(
-            "ALTER TABLE song ADD COLUMN lyrics TEXT default ''")
-    except Exception as e:
-        print(e)
-
-    sqlite_conn.close()
-
-
-migrate()
