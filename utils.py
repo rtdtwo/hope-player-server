@@ -63,5 +63,7 @@ def get_song_lyrics(artist, title):
     API.artist = artist
     API.title = title
     API.getLyrics()
+
+    print(API.lyrics)
     
     return API.lyrics
