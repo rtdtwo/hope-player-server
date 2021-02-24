@@ -7,6 +7,9 @@ nohup.out
 # Generated Artist Images
 static/artists/
 
+# Downloaded Artist Images
+bing_download_artists/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
