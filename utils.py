@@ -29,7 +29,7 @@ def generate_artist_image(artist):
         resized_image = rgb_image.resize((400, 400))
         resized_image.save(base_save_file)
 
-    shutil.rmtree(base_download_root, ignore_errors=True, onerror=None)
+        shutil.rmtree(base_download_path, ignore_errors=True, onerror=None)
 
 
 def get_valid_filename(name):
