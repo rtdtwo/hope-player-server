@@ -144,7 +144,7 @@ def get_lyrics(song_id):
 
     lyrics = song.lyrics
     if lyrics == '':
-        lyrics = utils.get_song_lyrics(song.artist, song.name)
+        lyrics = utils.get_lyrics(song.artist, song.name)
         da.update_song_lyrics(song, lyrics)
 
     return {
