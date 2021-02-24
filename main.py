@@ -73,7 +73,7 @@ def export_library():
     result = bl.export_library()
     return jsonify(result), result['code']
 
-    
+
 @app.route('/library/import', methods=['POST'])
 def import_library():
     playlist_file = request.files.get('file', None)
@@ -82,6 +82,16 @@ def import_library():
         return jsonify(result), result['code']
     else:
         return jsonify({'code': 400, 'msg': 'No import file provided'}), 400
+
+
+@app.route('/artists/image')
+def get_artist_image():
+    artist_name = request.args.get('name', None)
+    if artist_name is not None:
+        result = bl.get_artist_image(artist_name)
+        return app.send_static_file(result)
+    else:
+        return ''
 
 
 if __name__ == '__main__':

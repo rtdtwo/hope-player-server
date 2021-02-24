@@ -13,6 +13,9 @@ def generate_artist_image(artist):
     base_save_path = 'static/artists'
     base_save_file = base_save_path + '/' + name + '.jpg'
 
+    if not os.path.exists(base_save_path):
+        os.makedirs(base_save_path)
+
     if not os.path.exists(base_save_file):
         search_term = name + ' music artist'
         downloader.download(
@@ -26,7 +29,7 @@ def generate_artist_image(artist):
         resized_image = rgb_image.resize((400, 400))
         resized_image.save(base_save_file)
 
-    shutil.rmtree(base_download_root, ignore_errors=True, onerror=None)
+        shutil.rmtree(base_download_path, ignore_errors=True, onerror=None)
 
 
 def get_valid_filename(name):
@@ -63,7 +66,7 @@ def get_lyrics(artist, title):
     song = genius.search_song(title, artist)
     if song is not None:
         return song.lyrics
-    
+
     return None
 
 

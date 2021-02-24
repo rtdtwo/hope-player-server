@@ -72,16 +72,16 @@ def add_song(data):
 
     success = da.add_song(name, artist, url, art, tags)
 
-    if success:
-        utils.generate_artist_image(artist)
+    if success[0]:
         return {
             'code': 201,
-            'msg': 'Added successfully'
+            'msg': 'Added successfully.'
         }
     else:
         return {
             'code': 500,
-            'msg': 'Failed to add'
+            'msg': 'Failed to add song.',
+            'log': success[1]
         }
 
 
@@ -108,7 +108,6 @@ def edit_song(data):
     success = da.edit_song(song_id, name, artist, tags)
 
     if success:
-        utils.generate_artist_image(artist)
         return {
             'code': 200,
             'msg': 'Edited successfully'
@@ -162,16 +161,21 @@ def import_library(import_file):
     import_library = import_data['library']
     successes = 0
     failures = 0
+    logs = []
     for song in import_library:
         try:
-            da.add_song(
+            success = da.add_song(
                 song['name'],
                 song['artist'],
                 song['url'],
                 utils.generate_album_art(song['url']),
                 ','.join(song['tags'])
             )
-            successes += 1
+            if success[0]:
+                successes += 1
+            else:
+                failures += 1
+                logs.append(str(success[1]))
         except:
             failures += 1
 
@@ -179,11 +183,14 @@ def import_library(import_file):
         'code': 200,
         'result': {
             'success': successes,
-            'fail': failures
+            'fail': failures,
+            'logs': logs
         }
     }
 
 
-def nuke_library():
-    shutil.rmtree('static/artists', ignore_errors=True, onerror=None)
-    da.nuke_library()
+def get_artist_image(artist_name):
+    if not os.path.exists('static/artists/' + utils.get_valid_filename(artist_name) + '.jpg'):
+        utils.generate_artist_image(artist_name)
+
+    return 'artists/' + utils.get_valid_filename(artist_name) + '.jpg'
