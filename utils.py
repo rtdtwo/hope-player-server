@@ -21,7 +21,8 @@ def generate_artist_image(artist):
 
         cropped = crop_image(base_download_path + '/' + base_download_image)
         rgb_image = cropped.convert('RGB')
-        rgb_image.save(base_save_file)
+        resized_image = rgb_image.resize((400,400))
+        resized_image.save(base_save_file)
 
     shutil.rmtree(base_download_root, ignore_errors=True, onerror=None)
 

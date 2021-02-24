@@ -52,7 +52,7 @@ def delete_song():
         return jsonify({'code': 400, 'msg': 'No Song ID provided'}), 400
 
 
-@app.route('/artists', methods=['GET'])
+@app.route('/artists')
 def get_artists():
     result = bl.get_artists()
     return jsonify(result), result['code']
