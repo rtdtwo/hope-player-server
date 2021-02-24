@@ -30,6 +30,16 @@ def get_artists():
     return jsonify(result), result['code']
 
 
+@app.route('/artists/image')
+def get_artist_image():
+    artist_name = request.args.get('name', None)
+    if artist_name is not None:
+        result = bl.get_artist_image(artist_name)
+        return app.send_static_file(result)
+    else:
+        return ''
+
+
 @app.route('/lyrics')
 def get_lyrics():
     song_id = request.args.get('id', None)
@@ -57,4 +67,4 @@ def import_library():
 
 
 if __name__ == '__main__':
-    waitress.serve(app, host='0.0.0.0', port=7474)
+    waitress.serve(app, host='0.0.0.0', port=7474, threads=4)

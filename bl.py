@@ -80,6 +80,13 @@ def get_artists():
     return {'code': 200, 'results': result}
 
 
+def get_artist_image(artist_name):
+    if not os.path.exists('static/artists/' + utils.get_valid_filename(artist_name) + '.jpg'):
+        utils.generate_artist_image(artist_name)
+
+    return 'artists/' + utils.get_valid_filename(artist_name) + '.jpg'
+
+
 def get_lyrics(song_id):
     song = da.get_song(song_id)
     if song is None:
