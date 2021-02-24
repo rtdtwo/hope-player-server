@@ -106,14 +106,17 @@ def import_library(import_file):
     failures = 0
     for song in import_library:
         try:
-            da.add_song(
+            success = da.add_song(
                 song['name'],
                 song['artist'],
                 song['url'],
                 utils.generate_album_art(song['url']),
                 ','.join(song['tags'])
             )
-            successes += 1
+            if success:
+                successes += 1
+            else:
+                failures += 1
         except:
             failures += 1
 
