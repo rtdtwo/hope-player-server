@@ -2,6 +2,8 @@ import os
 import shutil
 from bing_image_downloader import downloader
 from PIL import Image
+import azapi
+import da
 
 
 def generate_artist_image(artist):
@@ -54,3 +56,12 @@ def crop_image(image_path):
         bottom_y = img_width
 
     return image.crop((top_x, top_y, bottom_x, bottom_y))
+
+
+def get_song_lyrics(artist, title):
+    API = azapi.AZlyrics('duckduckgo', accuracy=0.5)
+    API.artist = artist
+    API.title = title
+    API.getLyrics()
+    
+    return API.lyrics

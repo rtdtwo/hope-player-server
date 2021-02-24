@@ -44,7 +44,6 @@ def get_stream_url(song_id, quality):
                         'code': 200,
                         'result': stream_url
                     }
-
     else:
         return {
             'code': 404,
@@ -65,7 +64,9 @@ def add_song(data):
     else:
         art = ''
 
-    success = da.add_song(name, artist, url, art, tags)
+    lyrics = utils.get_song_lyrics(artist, name)
+
+    success = da.add_song(name, artist, url, art, tags, lyrics)
 
     if success:
         utils.generate_artist_image(artist)
@@ -131,3 +132,22 @@ def get_artists():
         })
 
     return {'code': 200, 'results': result}
+
+
+def get_lyrics(song_id):
+    song = da.get_song(song_id)
+    if song is None:
+        return {
+            'code': 400,
+            'msg': 'No song with ID {} exists'.format(song_id)
+        }
+
+    lyrics = song.lyrics
+    if lyrics == '':
+        lyrics = utils.get_song_lyrics(song.artist, song.name)
+        da.update_song_lyrics(song, lyrics)
+
+    return {
+        'code': 200,
+        'result': lyrics
+    }

@@ -11,13 +11,14 @@ def get_song(id):
     return list(models.Song.selectBy(id=id))[0]
 
 
-def add_song(name, artist, url, art, tags):
+def add_song(name, artist, url, art, tags, lyrics):
     try:
         song = models.Song(
             name=name,
             artist=artist,
             url=url,
             art=art,
+            lyrics=lyrics,
             added=time.time(),
             tags=json.dumps([tag.strip() for tag in tags.split(',')])
         )
@@ -50,3 +51,8 @@ def edit_song(id, name, artist, tags):
         return True
     else:
         return False
+
+    
+def update_song_lyrics(song, lyrics):
+    song.lyrics = lyrics
+    song.syncUpdate()
