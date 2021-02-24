@@ -1,6 +1,9 @@
 # Db File
 data.db
 
+# NoHup Logs
+nohup.out
+
 # Generated Artist Images
 static/artists/
 

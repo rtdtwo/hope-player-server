@@ -2,8 +2,9 @@ import os
 import shutil
 from bing_image_downloader import downloader
 from PIL import Image
-import azapi
-import da
+import re
+import urllib.request
+from bs4 import BeautifulSoup
 
 
 def generate_artist_image(artist):
@@ -58,14 +59,28 @@ def crop_image(image_path):
     return image.crop((top_x, top_y, bottom_x, bottom_y))
 
 
-def get_song_lyrics(artist, title):
-    print((artist, title, 'lyrics'))
+def get_lyrics(artist, song_title):
+    artist = artist.lower()
+    song_title = song_title.lower()
+    # remove all except alphanumeric characters from artist and song_title
+    artist = re.sub('[^A-Za-z0-9]+', "", artist)
+    song_title = re.sub('[^A-Za-z0-9]+', "", song_title)
+    # remove starting 'the' from artist e.g. the who -> who
+    if artist.startswith("the"):
+        artist = artist[3:]
+    url = "http://azlyrics.com/lyrics/"+artist+"/"+song_title+".html"
 
-    API = azapi.AZlyrics('duckduckgo', accuracy=0.5)
-    API.artist = artist
-    API.title = title
-    API.getLyrics()
-
-    print(('lyrics', API.lyrics))
-    
-    return API.lyrics
+    try:
+        content = urllib.request.urlopen(url).read()
+        soup = BeautifulSoup(content, 'html.parser')
+        lyrics = str(soup)
+        # lyrics lies between up_partition and down_partition
+        up_partition = '<!-- Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. -->'
+        down_partition = '<!-- MxM banner -->'
+        lyrics = lyrics.split(up_partition)[1]
+        lyrics = lyrics.split(down_partition)[0]
+        lyrics = lyrics.replace('<br>', '').replace(
+            '</br>', '').replace('</div>', '').strip()
+        return lyrics
+    except Exception as e:
+        return "Exception occurred \n" + str(e)
