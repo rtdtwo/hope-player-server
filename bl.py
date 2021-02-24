@@ -118,7 +118,7 @@ def import_library(import_file):
                 successes += 1
             else:
                 failures += 1
-                logs.append(success[1])
+                logs.append(str(success[1]))
         except:
             failures += 1
 
