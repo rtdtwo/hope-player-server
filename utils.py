@@ -13,6 +13,8 @@ def generate_artist_image(artist):
     base_save_path = 'static/artists'
     base_save_file = base_save_path + '/' + name + '.jpg'
 
+    os.makedirs(base_save_path)
+
     if not os.path.exists(base_save_file):
         search_term = name + ' music artist'
         downloader.download(
