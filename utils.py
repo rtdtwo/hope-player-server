@@ -64,3 +64,12 @@ def get_lyrics(artist, title):
         return song.lyrics
     
     return None
+
+
+def generate_album_art(yt_url):
+    yt_id = re.search(
+        '((?<=(v|V)/)|(?<=be/)|(?<=(\?|\&)v=)|(?<=embed/))([\w-]+)', yt_url)
+    if yt_id is not None:
+        return 'https://i.ytimg.com/vi/' + yt_id.group() + '/maxresdefault.jpg'
+    else:
+        return ''
