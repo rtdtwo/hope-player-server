@@ -94,5 +94,25 @@ def get_artist_image():
         return ''
 
 
+@app.route('/like')
+def like_song():
+    song_id = request.args.get('id', None)
+    if song_id is not None:
+        result = bl.like_unlike_song(song_id, True)
+        return jsonify(result), result['code']
+    else:
+        return jsonify({'code': 400, 'msg': 'No Song ID provided'}), 400
+
+
+@app.route('/unlike')
+def unlike_song():
+    song_id = request.args.get('id', None)
+    if song_id is not None:
+        result = bl.like_unlike_song(song_id, False)
+        return jsonify(result), result['code']
+    else:
+        return jsonify({'code': 400, 'msg': 'No Song ID provided'}), 400
+
+
 if __name__ == '__main__':
     waitress.serve(app, host='0.0.0.0', port=7474, threads=4)

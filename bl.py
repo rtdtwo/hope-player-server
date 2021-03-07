@@ -194,3 +194,24 @@ def get_artist_image(artist_name):
         utils.generate_artist_image(artist_name)
 
     return 'artists/' + utils.get_valid_filename(artist_name) + '.jpg'
+
+
+def like_unlike_song(song_id, liked):
+    song = da.get_song(song_id)
+    if song is not None:
+        success = da.like_unlike_song(song, liked)
+        if success:
+            return {
+                'code': 200,
+                'msg': 'Success'
+            }
+        else:
+            return {
+                'code': 500,
+                'msg': 'Failed'
+            }
+    else:
+        return {
+            'code': 500,
+            'msg': 'No such song exists'
+        }

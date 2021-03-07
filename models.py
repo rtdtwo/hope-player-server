@@ -1,6 +1,6 @@
 import os
 import json
-from sqlobject import SQLObject, sqlhub, connectionForURI, StringCol, BigIntCol
+from sqlobject import SQLObject, sqlhub, connectionForURI, StringCol, BigIntCol, BoolCol
 import sqlite3
 
 db_filename = os.path.abspath('data.db')
@@ -17,6 +17,7 @@ class Song(SQLObject):
     added = BigIntCol()
     tags = StringCol()
     lyrics = StringCol()
+    liked = BoolCol()
 
     def to_dict(self):
         if self.tags == '':
@@ -32,7 +33,8 @@ class Song(SQLObject):
             'added': self.added,
             'url': self.url,
             'lyrics': self.lyrics,
-            'tags': tags
+            'tags': tags,
+            'liked': self.liked
         }
 
 
@@ -43,6 +45,7 @@ def migrate():
 
     try:
         sqlite_conn.execute("ALTER TABLE song ADD COLUMN lyrics TEXT default ''")
+        sqlite_conn.execute("ALTER TABLE song ADD COLUMN liked INTEGER default 0")
     except Exception as e:
         print(e)
 

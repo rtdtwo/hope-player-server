@@ -56,3 +56,12 @@ def edit_song(id, name, artist, tags):
 def update_song_lyrics(song, lyrics):
     song.lyrics = lyrics
     song.syncUpdate()
+
+
+def like_unlike_song(song, liked):
+    try:
+        song.liked = liked
+        song.syncUpdate()
+        return True
+    except:
+        return False
