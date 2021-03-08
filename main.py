@@ -94,7 +94,12 @@ def get_artist_image():
         return ''
 
 
-@app.route('/like')
+@app.route('/library/liked')
+def get_liked_songs():
+    return jsonify(bl.get_liked_songs()), 200
+
+
+@app.route('/like', methods=['POST'])
 def like_song():
     song_id = request.args.get('id', None)
     if song_id is not None:
@@ -104,7 +109,7 @@ def like_song():
         return jsonify({'code': 400, 'msg': 'No Song ID provided'}), 400
 
 
-@app.route('/unlike')
+@app.route('/unlike', methods=['POST'])
 def unlike_song():
     song_id = request.args.get('id', None)
     if song_id is not None:

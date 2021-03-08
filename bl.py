@@ -215,3 +215,10 @@ def like_unlike_song(song_id, liked):
             'code': 500,
             'msg': 'No such song exists'
         }
+
+
+def get_liked_songs():
+    return {
+        'code': 200,
+        'results': [song.to_dict() for song in da.get_liked_songs()]
+    }

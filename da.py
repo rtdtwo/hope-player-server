@@ -65,3 +65,7 @@ def like_unlike_song(song, liked):
         return True
     except:
         return False
+
+
+def get_liked_songs():
+    return list(models.Song.selectBy(liked=True))
