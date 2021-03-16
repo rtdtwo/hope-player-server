@@ -1,6 +1,6 @@
 import os
 import json
-from sqlobject import SQLObject, sqlhub, connectionForURI, StringCol, BigIntCol, BoolCol, IntCol
+from sqlobject import SQLObject, sqlhub, connectionForURI, StringCol, BigIntCol, BoolCol
 
 db_filename = os.path.abspath('data.db')
 connection_string = 'sqlite:' + db_filename
@@ -16,7 +16,7 @@ class Song(SQLObject):
     added = BigIntCol()
     tags = StringCol()
     lyrics = StringCol()
-    liked = IntCol()
+    liked = BoolCol()
 
     def to_dict(self):
         if self.tags == '':
