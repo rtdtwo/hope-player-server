@@ -1,9 +1,25 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from flask_caching import Cache
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import waitress
 import bl
 
+
 app = Flask(__name__, static_folder='static', static_url_path='')
+caching_config = {
+    "DEBUG": True,          # some Flask specific configs
+    "CACHE_TYPE": "SimpleCache",  # Flask-Caching related configs
+    "CACHE_DEFAULT_TIMEOUT": 300
+}
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=["50 per minute", "1 per second"],
+)
+app.config.from_mapping(caching_config)
+cache = Cache(app)
 CORS(app)
 
 
