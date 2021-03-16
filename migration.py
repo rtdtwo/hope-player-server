@@ -5,17 +5,17 @@ def migrate():
     sqlite_conn = sqlite3.connect('data.db')
 
     try:
-        print("1. Adding lyrics column (will error if already exists)")
+        print("1. Adding lyrics column")
         sqlite_conn.execute(
             "ALTER TABLE song ADD COLUMN lyrics TEXT default ''")
     except Exception as e:
         print(e)
 
     try:
-        print("2. Adding liked column (will error if already exists)")
+        print("2. Adding liked column")
         sqlite_conn.execute(
             "ALTER TABLE song ADD COLUMN liked INTEGER default 0")
-    except:
+    except Exception as e:
         print(e)
 
     sqlite_conn.close()
