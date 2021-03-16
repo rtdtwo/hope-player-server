@@ -9,6 +9,23 @@ connection = connectionForURI(connection_string)
 sqlhub.processConnection = connection
 
 
+def migrate():
+    sqlite_conn = sqlite3.connect('data.db')
+
+    try:
+        sqlite_conn.execute(
+            "ALTER TABLE song ADD COLUMN lyrics TEXT default ''")
+        sqlite_conn.execute(
+            "ALTER TABLE song ADD COLUMN liked INTEGER default 0")
+    except Exception as e:
+        print(e)
+
+    sqlite_conn.close()
+
+
+migrate()
+
+
 class Song(SQLObject):
     name = StringCol()
     artist = StringCol()
@@ -39,16 +56,3 @@ class Song(SQLObject):
 
 
 Song.createTable(ifNotExists=True)
-
-def migrate():
-    sqlite_conn = sqlite3.connect('data.db')
-
-    try:
-        sqlite_conn.execute("ALTER TABLE song ADD COLUMN lyrics TEXT default ''")
-        sqlite_conn.execute("ALTER TABLE song ADD COLUMN liked INTEGER default 0")
-    except Exception as e:
-        print(e)
-
-    sqlite_conn.close()
-
-migrate()
