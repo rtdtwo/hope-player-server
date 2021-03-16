@@ -13,8 +13,10 @@ def migrate():
     sqlite_conn = sqlite3.connect('data.db')
 
     try:
+        print("Migration - Adding Lyrics Col")
         sqlite_conn.execute(
             "ALTER TABLE song ADD COLUMN lyrics TEXT default ''")
+        print("Migration - Adding Liked Col")
         sqlite_conn.execute(
             "ALTER TABLE song ADD COLUMN liked INTEGER default 0")
     except Exception as e:
