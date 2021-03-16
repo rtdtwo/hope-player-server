@@ -101,6 +101,7 @@ def import_library():
 
 
 @app.route('/artists/image')
+@limiter.exempt
 def get_artist_image():
     artist_name = request.args.get('name', None)
     if artist_name is not None:
