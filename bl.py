@@ -127,6 +127,8 @@ def get_artists():
         if name not in artist_names:
             artist_names.append(name)
 
+    artist_names.sort()
+    
     result = []
     for name in artist_names:
         result.append({
