@@ -20,6 +20,8 @@ limiter = Limiter(
 )
 app.config.from_mapping(caching_config)
 cache = Cache(app)
+
+app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 
 
