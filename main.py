@@ -16,7 +16,7 @@ caching_config = {
 limiter = Limiter(
     app,
     key_func=get_remote_address,
-    default_limits=["50 per minute", "1 per second"],
+    default_limits=["60 per minute"],
 )
 app.config.from_mapping(caching_config)
 cache = Cache(app)
