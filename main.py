@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask_caching import Cache
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -20,9 +20,7 @@ limiter = Limiter(
 )
 app.config.from_mapping(caching_config)
 cache = Cache(app)
-
-app.config['CORS_HEADERS'] = 'Content-Type'
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 
 @app.route('/library')
@@ -52,6 +50,7 @@ def add_song():
 
 
 @app.route('/edit', methods=['PUT'])
+@cross_origin()
 def edit_song():
     if request.is_json:
         result = bl.edit_song(request.json)
